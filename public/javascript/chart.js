@@ -1,10 +1,19 @@
 
-var createRandomNumbers = function(){
+var generateRandomNumbers = function(){
   var numbers = [];
   for (var i = 0; i < 10; i++) {
     randomNumber = Math.floor(Math.random() * 100) + 1;
     numbers.push(randomNumber);
   }
+  return numbers;
+};
+
+var randomNumbers = generateRandomNumbers();
+
+var updateRandomNumbers = function(numbers){
+  numbers.shift();
+  var randomNumber = Math.floor(Math.random() * 100) + 1;
+  numbers.push(randomNumber);
   return numbers;
 };
 
@@ -63,7 +72,7 @@ var drawBar = function(data,idName){
     d3.select('.'+idName).selectAll('rect')
       .data(data)
       .enter().append('rect')
-      .attr('x',function(d,i){return xScale(i+1)-20})
+      .attr('x',function(d,i){return xScale(i)})
       .attr('y',function(d){return yScale(d)})
       .attr('width',20)
       .attr('height',function(d){return INNER_HEIGHT - yScale(d)});
@@ -73,7 +82,7 @@ var loadChart = function(){
   createChart('line-chart');
   createChart('bar-chart');
   setInterval(function(){
-    var data = createRandomNumbers();
+    var data = updateRandomNumbers(randomNumbers);
     d3.select('.line-chart').selectAll('path').remove();
     drawLine(data,'line-chart');
     d3.select('.bar-chart').selectAll('rect').remove();
