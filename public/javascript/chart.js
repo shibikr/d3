@@ -17,8 +17,8 @@ var updateRandomNumbers = function(numbers){
   return numbers;
 };
 
-const WIDTH = 1000;
-const HEIGHT = 750;
+const WIDTH = 650;
+const HEIGHT = 550;
 const MARGIN = 30;
 
 const INNER_WIDTH = WIDTH - 2 * MARGIN;
@@ -35,6 +35,11 @@ var xScale = d3.scaleLinear()
 var yScale = d3.scaleLinear()
     .domain([0,100])
     .range([INNER_HEIGHT, 0]);
+
+var line = d3.line()
+  .x(function(d,i){return xScale(i)})
+  .y(function(d){return yScale(d)});
+
 
 var createChart = function(idName){
   var svg = d3.select('#'+idName).append('svg')
@@ -59,34 +64,37 @@ var createChart = function(idName){
     .classed(idName,true);
 };
 
-var drawLine = function(data,idName){
-  var line = d3.line()
-    .x(function(d,i){return xScale(i)})
-    .y(function(d){return yScale(d)});
-  d3.select('.'+idName).append('path')
+var createLine = function(data,className){
+    d3.select('.'+className).append('path')
     .classed('random-numbers', true)
     .attr('d', line(data));
 };
 
-var drawBar = function(data,idName){
-    d3.select('.'+idName).selectAll('rect')
-      .data(data)
-      .enter().append('rect')
-      .attr('x',function(d,i){return xScale(i)})
-      .attr('y',function(d){return yScale(d)})
+var updateLine = function(data, className){
+  d3.select('.'+className).selectAll('path')
+  .attr('d', line(data));
+};
+
+var createBar = function(data,className){
+    var rects = d3.select('.'+className).selectAll('rect')
+      .data(data);
+
+      rects.enter().append('rect')
       .attr('width',20)
-      .attr('height',function(d){return INNER_HEIGHT - yScale(d)});
+
+      rects.attr('x',function(d,i){return xScale(i)})
+        .attr('y',function(d){return yScale(d)})
+        .attr('height',function(d){return INNER_HEIGHT - yScale(d)});
 };
 
 var loadChart = function(){
   createChart('line-chart');
   createChart('bar-chart');
+  createLine(randomNumbers,'line-chart');
   setInterval(function(){
     var data = updateRandomNumbers(randomNumbers);
-    d3.select('.line-chart').selectAll('path').remove();
-    drawLine(data,'line-chart');
-    d3.select('.bar-chart').selectAll('rect').remove();
-    drawBar(data,'bar-chart');
+    updateLine(data,'line-chart');
+    createBar(data,'bar-chart');
   }, 250);
 };
 
