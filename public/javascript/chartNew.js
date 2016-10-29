@@ -8,20 +8,20 @@ var generateRandomNumber = function(){
   return Math.floor(Math.random() * 100) + 1;
 };
 
-// var createUbiqueValue = function(){
-//
-// };
+var createUniqueValue = function(d){
+    return new Date() + d;
+};
 
 var drawChart = function(data){
-  var bars = d3.select('.container').selectAll('div')
-              .data(data);
+  var bars = d3.select('.container').selectAll('.bar')
+              .data(data,(d) => createUniqueValue(d));
 
-  bars.enter().append('div');
-
-  bars.attr('class','bar')
+  bars.enter().append('div')
+      .attr('class','bar')
       .attr('style',(d)=>"width:"+d*10+"px")
       .text((d)=>d)
-      .style('background-color',(d)=> colors(d));
+      .style('background-color',(d)=> colors(d))
+      .transition();
 
   bars.exit().remove();
 };
