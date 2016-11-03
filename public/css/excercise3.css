@@ -1,0 +1,23 @@
+.subject{
+  border-radius: 25px;
+  color: white;
+  width: 60px;
+  text-align: center;
+  float: left;
+}
+
+.details{
+  height: 25px;
+  text-align: center;
+  border-radius: 25px;
+  border: 1px solid white;
+  color: white;
+}
+
+.heading{
+  width: 100px;
+}
+
+/*.subjects{
+  display: inline;
+}*/
