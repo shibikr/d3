@@ -1,0 +1,10 @@
+.numbers{
+  margin: 50px;
+}
+
+.number{
+  float: left;
+  border: 1px solid black;
+  margin-right: 5px;
+  text-align: center;
+}
