@@ -24,9 +24,7 @@ var createRectangles = function(values){
     .append('div')
     .classed('number',true)
     .text(function(d){return d})
-    .style('font-size',function(d){return sizeScale1(d)+'px'})
-    .style('width',function(d){return sizeScale1(d)+'px'})
-    .style('height',function(d){return sizeScale2(d)+'px'});
+    .style('font',function(d){return 'italic bold '+sizeScale1(d)+'px/'+sizeScale2(d)+'px Georgia, serif'});
 
   numbers.exit().remove();
 };

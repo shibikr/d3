@@ -15,8 +15,10 @@ var createTableContent = function(){
 
   var rowTwo = calculate(numbers,squareOf,"n square");
   var rowThree = calculate(numbers,logOf,"log(n)");
+  rowThree.shift();
   var rowFour = calculate(rowThree,thresholdOf,"log(n) rounded");
   var rowOne = numbers.unshift("n");
+  rowThree.unshift("log(n)");
 
   return [rowOne,rowTwo,rowThree,rowFour];
 };
