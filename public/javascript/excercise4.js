@@ -10,7 +10,10 @@ var calculate = function(numbers,method,startingElement){
 
 var createTableContent = function(){
   var squareOf = d3.scalePow().exponent(2);
-  var logOf = d3.scaleLog();
+  var logOf = function(number){
+    var log = d3.scaleLog();
+    return d3.format('.4g')(log(number));
+  };
   var thresholdOf = d3.scaleThreshold();
 
   var rowTwo = calculate(numbers,squareOf,"n square");
