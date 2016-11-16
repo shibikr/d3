@@ -14,6 +14,8 @@ const MARGIN = 30;
 const INNER_WIDTH = WIDHT - (MARGIN * 2);
 const INNER_HEIGHT = HEIGHT - (MARGIN * 2);
 
+var divisor = 10;
+
 var xScale = d3.scaleLinear()
   .domain([0,1])
   .range([0,INNER_WIDTH]);
@@ -23,8 +25,8 @@ var yScale = d3.scaleLinear()
   .range([INNER_WIDTH,0]);
 
 var line = d3.line()
-  .x(function(d){return xScale(d.x/10);})
-  .y(function(d){return yScale(d.y/10);});
+  .x(function(d){return xScale(d.x/divisor);})
+  .y(function(d){return yScale(d.y/divisor);});
 
 var translate = function(x,y){
   return "translate("+x+","+y+")";
@@ -45,22 +47,36 @@ var drawChart = function(){
 		.attr('transform', translate(MARGIN, MARGIN))
     .call(yAxis);
 
-  svg.append('g')
-    .attr('transform',  translate(MARGIN, MARGIN))
-    .classed('points',true);
 };
 
-var createLine = function(data){
-    d3.select('.points').append('path')
+var createLine = function(data, className){
+  d3.select('svg')
+    .append('g')
+    .attr('transform',  translate(MARGIN, MARGIN))
+    .classed(className,true)
+    .append('path')
     .classed('line', true)
     .attr('d', line(data));
+};
+
+var drawCircles = function(data,className){
+  d3.select('.'+className)
+    .selectAll('circle')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr('cx', function(d){return xScale(d.x/divisor)})
+    .attr('cy', function(d){return yScale(d.y/divisor)})
+    .attr('r',5);
 };
 
 var renderChart = function(){
   var sineValues = createSineValues(points);
   drawChart();
-  createLine(points);
-  createLine(sineValues);
+  createLine(points,'points');
+  createLine(sineValues,'sine');
+  drawCircles(points,'points');
+  drawCircles(sineValues,'sine');
 };
 
 window.onload = renderChart;

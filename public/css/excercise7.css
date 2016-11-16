@@ -9,3 +9,8 @@ svg{
   stroke: steelblue;
   stroke-width: 2px;
 }
+
+circle{
+  stroke: steelblue;
+  fill: white;
+}
