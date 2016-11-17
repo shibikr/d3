@@ -6,11 +6,18 @@ svg{
 
 .line{
   fill: none;
-  stroke: steelblue;
   stroke-width: 2px;
 }
 
 circle{
   stroke: steelblue;
   fill: white;
+}
+
+.points{
+  stroke: darkred;
+}
+
+.sine{
+  stroke: darkblue;
 }

@@ -8,6 +8,16 @@ var createSineValues = function(points){
   });
 };
 
+var chartTypes = [
+                  {'curveType':d3.curveLinearClosed,'chartName':'curveLinearClosed'},
+                  {'curveType':d3.curveStepAfter,'chartName':'curveStepAfter'},
+                  {'curveType':d3.curveBasis,'chartName':'curveBasis'},
+                  {'curveType':d3.curveBundle,'chartName':'curveBundle'},
+                  {'curveType':d3.curveCardinalClosed,'chartName':'curveCardinalClosed'},
+                  {'curveType':d3.curveCardinal,'chartName':'curveCardinal'},
+                  {'curveType':d3.curveMonotoneX,'chartName':'curveMonotonex'}
+                ];
+
 const HEIGHT = 650;
 const WIDHT = 650;
 const MARGIN = 30;
@@ -32,9 +42,10 @@ var translate = function(x,y){
   return "translate("+x+","+y+")";
 };
 
-var drawChart = function(){
+var drawChart = function(svgName){
   var svg = d3.select('body')
-    .append('svg');
+    .append('svg')
+    .classed(svgName,true);
 
   var xAxis = d3.axisBottom(xScale).ticks(10);
 	var yAxis = d3.axisLeft(yScale).ticks(10);
@@ -49,8 +60,8 @@ var drawChart = function(){
 
 };
 
-var createLine = function(data, className){
-  d3.select('svg')
+var createLine = function(data, className, svgName){
+  d3.select('.'+svgName)
     .append('g')
     .attr('transform',  translate(MARGIN, MARGIN))
     .classed(className,true)
@@ -59,8 +70,8 @@ var createLine = function(data, className){
     .attr('d', line(data));
 };
 
-var drawCircles = function(data,className){
-  d3.select('.'+className)
+var drawCircles = function(data,className,svgName){
+  d3.select('.'+svgName).select('.'+className)
     .selectAll('circle')
     .data(data)
     .enter()
@@ -72,11 +83,20 @@ var drawCircles = function(data,className){
 
 var renderChart = function(){
   var sineValues = createSineValues(points);
-  drawChart();
-  createLine(points,'points');
-  createLine(sineValues,'sine');
-  drawCircles(points,'points');
-  drawCircles(sineValues,'sine');
+  drawChart('chart1');
+  createLine(points,'points','chart1');
+  createLine(sineValues,'sine','chart1');
+  drawCircles(points,'points','chart1');
+  drawCircles(sineValues,'sine','chart1');
+
+  chartTypes.forEach(function(chart){
+    line.curve(chart.curveType);
+    drawChart(chart.chartName);
+    createLine(points,'points',chart.chartName);
+    createLine(sineValues,'sine',chart.chartName);
+    drawCircles(points,'points',chart.chartName);
+    drawCircles(sineValues,'sine',chart.chartName);
+  });
 };
 
 window.onload = renderChart;
