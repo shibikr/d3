@@ -1,0 +1,16 @@
+svg{
+  margin: 30px;
+  width: 650px;
+  height: 650px;
+}
+
+.line{
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+circle{
+  fill: white;
+  stroke: steelblue;
+}
